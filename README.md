@@ -25,3 +25,9 @@ Select a flake output using fzf, then press `enter` to build it.
 Use `tab` in fzf to filter packages corresponding to your system configuration, then `enter` to build it.
 
 Use `shift-tab` in fzf to filter nixos system configurations, then `enter` to build one of them.
+
+If you are using `zsh` here is a simple keybind to run it when pressing `ctrl-l`:
+
+```zsh
+bindkey -s "^L" 'nix run github:jfroche/flake-fzf^M'
+```
