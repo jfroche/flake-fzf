@@ -6,6 +6,8 @@ This little script simplify flake output selection using [fzf](https://github.co
 
 ## Running
 
+In a directory containing a `flake.nix` file, run:
+
 ```bash
 nix run github:jfroche/flake-fzf
 ```
