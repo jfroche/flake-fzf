@@ -2,5 +2,5 @@
 writeShellApplication {
   name = "flake-fzf";
   runtimeInputs = [ fzf bash ];
-  text = ''bash ${./flake-fzf.sh}'';
+  text = ''bash ${./flake-fzf.sh} "$@"'';
 }

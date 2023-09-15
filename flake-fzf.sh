@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
+set -x
 system=$(nix-instantiate --eval --expr 'builtins.currentSystem' --json | jq -r)
+flakePath="${1:-.}"
 selection=$(
-  nix flake show --json | jq -r '
+  set -x
+  nix flake show --json "$flakePath" | jq -r '
   [
     leaf_paths as $path | 
     {"key": $path | join("."), "value": getpath($path)} | 
@@ -15,7 +18,7 @@ selection=$(
   [.key, .value] |
   @tsv' \
         | fzf --layout=reverse --border \
-      --preview "nix show-derivation .#{1} 2>/dev/null" \
+      --preview "nix show-derivation ${flakePath}#{1} 2>/dev/null" \
       --delimiter "\t" --padding=1 \
       --bind 'btab:change-query(configuration )' \
       --bind "tab:change-query($system )"
@@ -26,10 +29,10 @@ selectedType="$(echo -n "$selection" | cut -d$'\t' -f2 | tr -d '\n')"
 case $selectedType in
   "nixos-configuration")
     set -x
-    nix build -L ".#$selectedPath.config.system.build.toplevel"
+    nix build -L "${flakePath}#$selectedPath.config.system.build.toplevel"
     ;;
   *)
     set -x
-    nix build -L ".#$selectedPath"
+    nix build -L "${flakePath}#$selectedPath"
     ;;
 esac

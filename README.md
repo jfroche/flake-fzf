@@ -12,6 +12,12 @@ In a directory containing a `flake.nix` file, run:
 nix run github:jfroche/flake-fzf
 ```
 
+It can also build remote flake if you provide a flake url:
+
+```bash
+nix run github:jfroche/flake-fzf github:Mic92/nix-ci-build
+```
+
 ## Usage
 
 Select a flake output using fzf, then press `enter` to build it.
