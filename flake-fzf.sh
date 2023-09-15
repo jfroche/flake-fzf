@@ -5,7 +5,7 @@ system=$(nix-instantiate --eval --expr 'builtins.currentSystem' --json | jq -r)
 flakePath="${1:-.}"
 selection=$(
   set -x
-  nix flake show --json "$flakePath" | jq -r '
+  nix flake show --json "$flakePath" 2> /dev/null | jq -r '
   [
     leaf_paths as $path | 
     {"key": $path | join("."), "value": getpath($path)} | 
