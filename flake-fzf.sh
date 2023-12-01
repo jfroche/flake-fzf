@@ -7,7 +7,7 @@ selection=$(
   set -x
   nix flake show --json "$flakePath" 2> /dev/null | jq -r '
   [
-    leaf_paths as $path | 
+    paths(scalars) as $path |
     {"key": $path | join("."), "value": getpath($path)} | 
     select( .key | endswith("type")) |
     select(.value != "unknown") 

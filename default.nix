@@ -1,6 +1,6 @@
-{ writeShellApplication, fzf, bash }:
+{ writeShellApplication, fzf, bash, jq }:
 writeShellApplication {
   name = "flake-fzf";
-  runtimeInputs = [ fzf bash ];
+  runtimeInputs = [ fzf bash jq ];
   text = ''bash ${./flake-fzf.sh} "$@"'';
 }
