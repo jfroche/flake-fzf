@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
-set -x
 system=$(nix-instantiate --eval --expr 'builtins.currentSystem' --json | jq -r)
 flakePath="${1:-.}"
 selection=$(
-  set -x
   nix flake show --json "$flakePath" 2> /dev/null | jq -r '
   [
     paths(scalars) as $path |
