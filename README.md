@@ -31,3 +31,16 @@ If you are using `zsh` here is a simple keybind to run it when pressing `ctrl-l`
 ```zsh
 bindkey -s "^L" 'nix run github:jfroche/flake-fzf^M'
 ```
+If you want to keep the command line in your history, you can use this instead:
+
+```zsh
+bindkey -s "^L" 'print -z $(nix run github:jfroche/flake-fzf . --print)^M'
+```
+
+This will run the command and replace the command line with the selected flake output.
+
+Of course if you installed flake-fzf, you can use it directly:
+
+```zsh
+bindkey -s "^L" 'print -z $(flake-fzf . --print)^M'
+```

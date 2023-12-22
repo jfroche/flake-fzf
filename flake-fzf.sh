@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
+
+if [[ ${2:-} == "--print" ]]; then
+  MODE="print"
+else
+  MODE="eval"
+fi
+
 system=$(nix-instantiate --eval --expr 'builtins.currentSystem' --json | jq -r)
 flakePath="${1:-.}"
 selection=$(
@@ -26,11 +33,14 @@ selectedPath="$(echo -n "$selection" | cut -d$'\t' -f1 | tr -d '\n')"
 selectedType="$(echo -n "$selection" | cut -d$'\t' -f2 | tr -d '\n')"
 case $selectedType in
   "nixos-configuration")
-    set -x
-    nix build -L "${flakePath}#$selectedPath.config.system.build.toplevel"
+    installable="${flakePath}#$selectedPath.config.system.build.toplevel"
     ;;
   *)
-    set -x
-    nix build -L "${flakePath}#$selectedPath"
+    installable="${flakePath}#$selectedPath"
     ;;
 esac
+if [[ $MODE == "print" ]]; then
+  echo "nix build -L $installable"
+else
+  nix build -L "$installable"
+fi
