@@ -22,7 +22,7 @@ selection=$(
   [.key, .value] |
   @tsv' \
         | fzf --layout=reverse --border \
-      --preview "nix show-derivation ${flakePath}#{1} 2>/dev/null | bat -f -l json" \
+      --preview "nix derivation show ${flakePath}#{1} 2>/dev/null | bat -f -l json" \
       --delimiter "\t" --padding=1 \
       --bind 'btab:change-query(configuration )' \
       --bind "tab:change-query($system )"
